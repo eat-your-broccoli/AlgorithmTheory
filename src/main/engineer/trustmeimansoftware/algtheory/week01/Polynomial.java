@@ -1,6 +1,14 @@
-package engineer.trustmeimansoftware.algtheory;
+package engineer.trustmeimansoftware.algtheory.week01;
 
+/**
+ * models a polynomial
+ */
 public class Polynomial {
+    // values of the polynomial
+    // value at index is factor of x
+    // index is order of x
+    // ex: values[2] == 3 -> 3x^2
+    // length of values minus 1 represents polynomial's order
     public int[] values;
 
     public Polynomial(int[] values) {
@@ -10,8 +18,11 @@ public class Polynomial {
         this.values = new int[order];
     }
 
+    /**
+     * multiply two polynomials
+     */
     public Polynomial multiply(Polynomial other) {
-        Polynomial result = new Polynomial(this.values.length + other.values.length -1);
+        Polynomial result = new Polynomial(this.values.length + other.values.length - 1);
         for(int i = 0; i < this.values.length; i++) {
             for(int j = 0; j < other.values.length; j++) {
                 result.values[i+j] += this.values[i] * other.values[j];

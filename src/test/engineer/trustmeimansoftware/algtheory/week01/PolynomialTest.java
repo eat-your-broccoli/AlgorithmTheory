@@ -1,6 +1,6 @@
-package engineer.trustmeimansoftware.algtheory.test;
+package engineer.trustmeimansoftware.algtheory.week01;
 
-import engineer.trustmeimansoftware.algtheory.Polynomial;
+import engineer.trustmeimansoftware.algtheory.week01.Polynomial;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

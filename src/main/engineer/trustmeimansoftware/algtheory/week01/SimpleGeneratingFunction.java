@@ -1,5 +1,12 @@
-package engineer.trustmeimansoftware.algtheory;
+package engineer.trustmeimansoftware.algtheory.week01;
 
+/**
+ * generating function for a piece
+ * only allows natural numbers
+ *
+ * generating function for a piece p is described as follows:
+ * 1 / (1 - x^p)
+ */
 public class SimpleGeneratingFunction {
 
     public Polynomial polynomial;

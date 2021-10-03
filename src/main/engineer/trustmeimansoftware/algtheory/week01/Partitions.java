@@ -1,23 +1,25 @@
-package engineer.trustmeimansoftware.algtheory.test;
-
-import engineer.trustmeimansoftware.algtheory.Matrix;
-import engineer.trustmeimansoftware.algtheory.Polynomial;
-import engineer.trustmeimansoftware.algtheory.SimpleGeneratingFunction;
+package engineer.trustmeimansoftware.algtheory.week01;
 
 import java.math.BigInteger;
 import java.util.*;
 
+/**
+ * Partitions into pieces
+ */
 public class Partitions {
     public int[] pieces;
     public int startMatrixDim;
+    // generating functions for each piece
     public SimpleGeneratingFunction[] sgf;
+    // resulting generating function of sgf
     public SimpleGeneratingFunction gf;
-    public Matrix startMatrix;
+
+    public Matrix baseMatrix;
     public Matrix valueVector;
     public BigInteger[] startValues;
 
     public Partitions(int[] pieces) {
-        if(pieces.length == 0) throw new IllegalArgumentException("pieces must be contain at least one element");
+        if(pieces.length == 0) throw new IllegalArgumentException("pieces must contain at least one element");
         this.pieces = pieces;
         sgf = new SimpleGeneratingFunction[pieces.length];
         for (int i = 0; i < pieces.length; i++) {
@@ -28,29 +30,79 @@ public class Partitions {
             result = result.multiply(s.polynomial);
         }
         this.gf = new SimpleGeneratingFunction(result);
-        this.startMatrix = this.createStartMatrix();
+        this.baseMatrix = this.createBaseMatrix();
         this.calcStartValues();
         this.createValueVector();
     }
 
-    public Matrix createStartMatrix() {
+    public Matrix createBaseMatrix() {
+        // startMatrixDim is dimension of baseMatrix and valueVector
+        // this is equal to order of generating functions polynomial
+        // e.g. gf = 1 / 1-x-x^2+x^4+x^5-x^6 => length=7 - 1=> 6
         this.startMatrixDim = this.gf.polynomial.values.length - 1;
         Matrix m = new Matrix(startMatrixDim);
-        // convert i to BigInteger
+        // fill last row with values from gf
         for(int i = 0; i < startMatrixDim; i++) {
             m.values[startMatrixDim-1][i] = new BigInteger(this.gf.polynomial.values[i]+"");
         }
+        // all cells above diagonal are one
         for(int i = 0; i < startMatrixDim -1; i++) {
             m.values[i][i+1] = BigInteger.ONE;
         }
         return m;
     }
 
+    /**
+     * calculates the first values inefficiently for matrix multiplication
+     */
+    public void calcStartValues() {
+        // sort pieces
+        Arrays.sort(this.pieces);
+
+        // remove duplicates
+        // only allow positive values
+        Set<Integer> removedDuplicates = new HashSet<>();
+        for(int piece: this.pieces) {
+            if(piece > 0) removedDuplicates.add(piece);
+            else throw new IllegalArgumentException("pieces contains element equal or less than zero");
+        }
+
+        // convert pieces to BigIntegers
+        BigInteger[] piecesBigInt = new BigInteger[removedDuplicates.size()];
+        Iterator it = removedDuplicates.iterator();
+        int index = 0;
+        while(it.hasNext()) {
+            piecesBigInt[index] = new BigInteger(it.next()+"");
+            index++;
+        }
+
+        this.startValues = new BigInteger[this.startMatrixDim +1];
+        this.startValues[0] = BigInteger.ONE;
+
+        // calculate all values necessary for valueVector
+        for (int i = this.startMatrixDim; i > 0; i--) {
+            if(this.startValues[i] == null) this.calcStartValues(piecesBigInt, new BigInteger(i+""));
+        }
+    }
+
+
+    /**
+     * calculate startValues for use in valueVector recursively
+     * @example pieces={1,2,3}, n = 3
+     * 1 -> 1 -> 1 ->   = 1+1+1 returns 1
+     *        -> 2 ->   = 1+1+2 returns 0
+     *        -> 3 ->   = 1+1+3 returns 0
+     *   -> 2 ->        = 1+2 returns 1
+     *   -> 3 ->        = 1+3 returns 0
+     * 2 -> 2           = 2+2 returns 0
+     *   -> 3           = 2+3 returns 0
+     * 3 ->             = 3 returns 1
+     */
     public BigInteger calcStartValues(BigInteger[] pieces, BigInteger n) {
         int nInt = n.intValue();
 
         // if we have a cache hit, use the value
-        // use cache only, when pieces are in original form
+        // use cache only, when all pieces are still present
         if(this.pieces.length == pieces.length
                 && nInt >= 0
                 && nInt < this.pieces.length
@@ -77,34 +129,9 @@ public class Partitions {
         return result;
     }
 
-    public void calcStartValues() {
-        // sort
-        Arrays.sort(this.pieces);
-        Set<Integer> removedDuplicates = new HashSet<>();
-
-        // remove duplicates
-        // only allow positive values
-        for(int piece: this.pieces) {
-            if(piece > 0) removedDuplicates.add(piece);
-            else throw new IllegalArgumentException("pieces contains element equal or less than zero");
-        }
-        // convert to BigInts
-        BigInteger[] piecesBigInt = new BigInteger[removedDuplicates.size()];
-        Iterator it = removedDuplicates.iterator();
-        int index = 0;
-        while(it.hasNext()) {
-            piecesBigInt[index] = new BigInteger(it.next()+"");
-            index++;
-        }
-
-        this.startValues = new BigInteger[this.startMatrixDim];
-        this.startValues[0] = BigInteger.ONE;
-
-        for (int i = this.startValues.length -1; i > 0; i--) {
-            if(this.startValues[i] == null) this.calcStartValues(piecesBigInt, new BigInteger(i+""));
-        }
-    }
-
+    /**
+     * converts startValues to valueVector
+     */
     public void createValueVector() {
         BigInteger[][] values = new BigInteger[this.startValues.length][1];
         for(int i = 0; i < this.startValues.length; i++) {
@@ -113,8 +140,13 @@ public class Partitions {
         this.valueVector = new Matrix(values);
     }
 
+    /**
+     * calculates count of partitions for n
+     * @param n
+     * @return
+     */
     public BigInteger calcPartitionCountForN(int n) {
-        Matrix m1 = this.startMatrix.toThePowerOf(n);
+        Matrix m1 = this.baseMatrix.toThePowerOf(n);
         Matrix m2 = m1.leftMultiply(this.valueVector);
         return m2.values[0][0];
     }

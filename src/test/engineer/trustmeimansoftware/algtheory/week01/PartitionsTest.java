@@ -1,13 +1,12 @@
-package engineer.trustmeimansoftware.algtheory;
+package engineer.trustmeimansoftware.algtheory.week01;
 
-import engineer.trustmeimansoftware.algtheory.test.Partitions;
-import javafx.scene.chart.PieChart;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PartitionsTest {
 
@@ -31,7 +30,7 @@ class PartitionsTest {
                 {new BigInteger("5")},
         };
         Matrix m = new Matrix(values);
-        Matrix result = p.startMatrix.leftMultiply(m);
+        Matrix result = p.baseMatrix.leftMultiply(m);
     }
 
     @Test

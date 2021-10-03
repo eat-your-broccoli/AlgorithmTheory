@@ -1,6 +1,6 @@
-package engineer.trustmeimansoftware.algtheory.test;
+package engineer.trustmeimansoftware.algtheory.week01;
 
-import engineer.trustmeimansoftware.algtheory.SimpleGeneratingFunction;
+import engineer.trustmeimansoftware.algtheory.week01.SimpleGeneratingFunction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -1,11 +1,7 @@
-package engineer.trustmeimansoftware.algtheory.test;
+package engineer.trustmeimansoftware.algtheory.week01;
 
-import engineer.trustmeimansoftware.algtheory.BinaryWords;
-import engineer.trustmeimansoftware.algtheory.Matrix;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.math.BigInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,6 +1,6 @@
-package engineer.trustmeimansoftware.algtheory.test;
+package engineer.trustmeimansoftware.algtheory.week01;
 
-import engineer.trustmeimansoftware.algtheory.Matrix;
+import engineer.trustmeimansoftware.algtheory.week01.Matrix;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +16,25 @@ class MatrixTest {
         Matrix m = new Matrix(3);
         assertEquals(3, m.values.length);
         assertEquals(3, m.values[0].length);
+    }
+
+    @Test
+    @DisplayName("Creating instance of Matrix from String")
+    void createMatrix_fromString() {
+        String s = "1 2 3; 4 5 6; 7 8 9";
+        Matrix m = Matrix.fromString(s);
+
+        assertEquals("1", m.values[0][0].toString());
+        assertEquals("2", m.values[0][1].toString());
+        assertEquals("3", m.values[0][2].toString());
+        assertEquals("4", m.values[1][0].toString());
+        assertEquals("5", m.values[1][1].toString());
+        assertEquals("6", m.values[1][2].toString());
+        assertEquals("7", m.values[2][0].toString());
+        assertEquals("8", m.values[2][1].toString());
+        assertEquals("9", m.values[2][2].toString());
+        System.out.println(m);
+
     }
 
     @Test
