@@ -16,6 +16,7 @@ package engineer.trustmeimansoftware.algtheory;
  *
  *  4. Write a Java program that reads a natural number n from the input and computes the
  * number of partitions of n into pieces of size 2, 3, 4.
+ *
  *  5. Write a Java program that reads a natural number n and two positive natural numbers k
  * and m from the input and computes the number of partitions of n into pieces of size k
  * and m.

@@ -1,12 +1,12 @@
 package engineer.trustmeimansoftware.algtheory;
 import java.math.BigInteger;
+import java.util.Arrays;
 
 public class Matrix {
 
     public BigInteger[][] values;
 
-    // non-quadratic matrices are not wanted yet, so we forbid them
-    private Matrix(int rows, int cols ) {
+    public Matrix(int rows, int cols ) {
         this.values = newBigIntMatrix(rows, cols);
     }
 
@@ -42,7 +42,11 @@ public class Matrix {
     }
 
     private BigInteger[][] newBigIntMatrix(int rows, int cols) {
-        return new BigInteger[rows][cols];
+        BigInteger[][] m = new BigInteger[rows][cols];
+        for(BigInteger[] row: m) {
+            Arrays.fill(row, BigInteger.ZERO);
+        }
+        return m;
     }
 
     public Matrix leftMultiply(Matrix rightMatrix) {
@@ -54,7 +58,9 @@ public class Matrix {
             for (int col = 0; col < cols; col++) {
                 BigInteger cellSum = BigInteger.ZERO;
                 for(int i = 0; i < rows; i++) {
-                    cellSum = cellSum.add(this.values[row][i].multiply(rightMatrix.values[i][col]));
+                    BigInteger a = this.values[row][i];
+                    BigInteger b = rightMatrix.values[i][col];
+                    cellSum = cellSum.add(a.multiply(b));
                 }
                 newValues[row][col] = cellSum;
             }
