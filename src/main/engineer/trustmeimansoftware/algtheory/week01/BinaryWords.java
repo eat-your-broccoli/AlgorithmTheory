@@ -34,6 +34,8 @@ public class BinaryWords {
      * @return all words
      */
     public BigInteger wordCountForN(int n) {
+        if(n < 0) return BigInteger.ZERO;
+
         // if we have a cache hit, use the value
         if(this.buffer.containsKey(n)) return this.buffer.get(n);
         // recursively calc result otherwise
