@@ -14,8 +14,8 @@ public class Polynomial {
     public Polynomial(int[] values) {
         this.values = values;
     }
-    public Polynomial(int order) {
-        this.values = new int[order];
+    public Polynomial(int orderPlusOne) {
+        this.values = new int[orderPlusOne];
     }
 
     /**
