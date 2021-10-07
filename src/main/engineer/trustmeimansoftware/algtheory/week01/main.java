@@ -99,7 +99,7 @@ public class main {
     }
     public static void ex04() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("\nProblem 04: Partitions for {1,2,3}");
+        System.out.println("\nProblem 04: Partitions for {2,3,4}");
 
         System.out.println("Enter n");
         int n = sc.nextInt();
@@ -107,7 +107,7 @@ public class main {
         System.out.println("Your input:");
         System.out.println(n);
 
-        int[] pieces = new int[]{1,2,3};
+        int[] pieces = new int[]{2,3,4};
         Partitions p = new Partitions(pieces);
         LocalTime start = LocalTime.now();
         BigInteger result = p.calcPartitionCountForN(n);

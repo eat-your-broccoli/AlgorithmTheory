@@ -34,6 +34,7 @@ public class BinaryWords {
      * @return all words
      */
     public BigInteger wordCountForN(int n) {
+        // TODO convert to recursion
         if(n < 0) return BigInteger.ZERO;
 
         // if we have a cache hit, use the value
