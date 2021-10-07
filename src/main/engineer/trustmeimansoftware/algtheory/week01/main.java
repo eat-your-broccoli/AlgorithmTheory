@@ -31,77 +31,71 @@ public class main {
     }
 
     public static void ex01() {
-        while(true) {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("\nProblem 01: Matrix powering. To stop enter 'exit'");
-            System.out.println("Enter your Matrix. Example: '1 2 3; 4 5 6; 7 8 9;'");
-            String str = sc.nextLine();
-            if(str.toLowerCase().equals("exit")) return;
-            Matrix m = null;
-            try {
-                m = Matrix.fromString(str);
-                if(m.values.length != m.values[0].length) throw new Error("Matrix must be quadratic");
-            } catch (Throwable e) {
-                System.out.println("Invalid input for Matrix: "+e.getMessage());
-                continue;
-            }
-            System.out.println("Your input:");
-            System.out.println(m);
-            System.out.println("Enter power:");
-            int n = sc.nextInt();
-            LocalTime start = LocalTime.now();
-            Matrix result = m.toThePowerOf(n);
-            LocalTime end = LocalTime.now();
-            Duration duration = Duration.between(start, end);
-            System.out.println("The "+n+"-th power of input Matrix is:");
-            System.out.println(result);
-            System.out.println("Duration: "+ duration.toMillis() + " ms");
-            System.out.println("");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\nProblem 01: Matrix powering");
+        System.out.println("Enter your Matrix. Example: '1 2 3; 4 5 6; 7 8 9;'");
+        String str = sc.nextLine();
+        if(str.toLowerCase().equals("exit")) return;
+        Matrix m;
+        try {
+            m = Matrix.fromString(str);
+            if(m.values.length != m.values[0].length) throw new Error("Matrix must be quadratic");
+        } catch (Throwable e) {
+            System.out.println("Invalid input for Matrix: "+e.getMessage());
+            return;
         }
+        System.out.println("Your input:");
+        System.out.println(m);
+        System.out.println("Enter power:");
+        int n = sc.nextInt();
+        LocalTime start = LocalTime.now();
+        Matrix result = m.toThePowerOf(n);
+        LocalTime end = LocalTime.now();
+        Duration duration = Duration.between(start, end);
+        System.out.println("The "+n+"-th power of input Matrix is:");
+        System.out.println(result);
+        System.out.println("Duration: "+ duration.toMillis() + " ms");
+        System.out.println();
     }
     public static void ex02() {
-        while(true) {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("\nProblem 02: BinaryWords k = 2. To stop enter 'exit'");
-            System.out.println("Enter word length (n)");
-            int n = sc.nextInt();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\nProblem 02: BinaryWords k = 2");
+        System.out.println("Enter word length (n)");
+        int n = sc.nextInt();
 
-            System.out.println("Your input:");
-            System.out.println(n);
+        System.out.println("Your input:");
+        System.out.println(n);
 
-            LocalTime start = LocalTime.now();
-            BigInteger result = new BinaryWords(2).wordCountForN(n);
-            LocalTime end = LocalTime.now();
-            Duration duration = Duration.between(start, end);
-            System.out.println("Binary Words for k = 2, n = "+n+": ");
-            System.out.println(result);
-            System.out.println("Duration: "+ duration.toMillis() + " ms");
-            System.out.println("");
-        }
+        LocalTime start = LocalTime.now();
+        BigInteger result = new BinaryWords(2).wordCountForN(n);
+        LocalTime end = LocalTime.now();
+        Duration duration = Duration.between(start, end);
+        System.out.println("Binary Words for k = 2, n = "+n+": ");
+        System.out.println(result);
+        System.out.println("Duration: "+ duration.toMillis() + " ms");
+        System.out.println();
     }
     public static void ex03() {
-        while(true) {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("\nProblem 03: BinaryWords for variable k. To stop enter 'exit'");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\nProblem 03: BinaryWords for variable k");
 
-            System.out.println("Enter min distance between two 1s (k)");
-            int k = sc.nextInt();
+        System.out.println("Enter min distance between two 1s (k)");
+        int k = sc.nextInt();
 
-            System.out.println("Enter word length (n)");
-            int n = sc.nextInt();
+        System.out.println("Enter word length (n)");
+        int n = sc.nextInt();
 
-            System.out.println("Your input:");
-            System.out.println(n);
+        System.out.println("Your input:");
+        System.out.println(n);
 
-            LocalTime start = LocalTime.now();
-            BigInteger result = new BinaryWords(k).wordCountForN(n);
-            LocalTime end = LocalTime.now();
-            Duration duration = Duration.between(start, end);
-            System.out.println("Binary Words for k = "+k+", n = "+n+": ");
-            System.out.println(result);
-            System.out.println("Duration: "+ duration.toMillis() + " ms");
-            System.out.println("");
-        }
+        LocalTime start = LocalTime.now();
+        BigInteger result = new BinaryWords(k).wordCountForN(n);
+        LocalTime end = LocalTime.now();
+        Duration duration = Duration.between(start, end);
+        System.out.println("Binary Words for k = "+k+", n = "+n+": ");
+        System.out.println(result);
+        System.out.println("Duration: "+ duration.toMillis() + " ms");
+        System.out.println();
     }
     public static void ex04() {
         Scanner sc = new Scanner(System.in);
@@ -122,7 +116,7 @@ public class main {
         System.out.println("Partitions for pieces = "+ Arrays.toString(pieces) +", n = "+n+": ");
         System.out.println(result);
         System.out.println("Duration: "+ duration.toMillis() + " ms");
-        System.out.println("");
+        System.out.println();
     }
 
     public static void ex05() {
@@ -150,7 +144,7 @@ public class main {
         System.out.println("Partitions for pieces = "+ Arrays.toString(pieces) +", n = "+n+": ");
         System.out.println(result);
         System.out.println("Duration: "+ duration.toMillis() + " ms");
-        System.out.println("");
+        System.out.println();
     }
 
 }
