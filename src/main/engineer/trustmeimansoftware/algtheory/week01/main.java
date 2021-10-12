@@ -23,7 +23,6 @@ public class main {
                 case "2": ex02(); break;
                 case "3": ex03(); break;
                 case "4": ex04(); break;
-                // TODO this is broken for some partitions, e.g. {2, 7}
                 case "5": ex05(); break;
                 case "exit": running = false; break;
                 default: System.out.println("Unknown problem: "+input);
@@ -137,7 +136,7 @@ public class main {
         System.out.println(n);
 
         int[] pieces = new int[]{m, k};
-        Partitions p = new Partitions(pieces);
+        PartitionsRecursive p = new PartitionsRecursive(pieces);
         LocalTime start = LocalTime.now();
         BigInteger result = p.calcPartitionCountForN(n);
         LocalTime end = LocalTime.now();
