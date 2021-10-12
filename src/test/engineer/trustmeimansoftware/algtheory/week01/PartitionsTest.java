@@ -78,6 +78,23 @@ class PartitionsTest {
         assertEquals("331", p.calcPartitionCountForN(60).toString());
     }
 
+    @Test
+    @DisplayName("calc partitions count for {2,3,4}")
+    public void calcPartitionsTwoThreeFour() {
+        Partitions p = new Partitions(new int[]{2,3,4});
+        assertEquals("1", p.calcPartitionCountForN(0).toString());
+        assertEquals("0", p.calcPartitionCountForN(1).toString());
+        assertEquals("1", p.calcPartitionCountForN(2).toString());
+        assertEquals("1", p.calcPartitionCountForN(3).toString());
+        assertEquals("2", p.calcPartitionCountForN(4).toString());
+        assertEquals("1", p.calcPartitionCountForN(5).toString());
+        assertEquals("3", p.calcPartitionCountForN(6).toString());
+        assertEquals("2", p.calcPartitionCountForN(7).toString());
+        assertEquals("4", p.calcPartitionCountForN(8).toString());
+        assertEquals("3", p.calcPartitionCountForN(9).toString());
+        assertEquals("91", p.calcPartitionCountForN(60).toString());
+    }
+
 
 
 

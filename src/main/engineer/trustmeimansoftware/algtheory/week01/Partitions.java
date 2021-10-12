@@ -36,10 +36,7 @@ public class Partitions {
     }
 
     public Matrix createBaseMatrix() {
-        // startMatrixDim is dimension of baseMatrix and valueVector
-        // this is equal to order of generating functions polynomial
-        // e.g. gf = 1 / 1-x-x^2+x^4+x^5-x^6 => length=7 - 1=> 6
-        this.startMatrixDim = this.gf.polynomial.values.length - 1;
+        this.startMatrixDim = this.getStartMatrixDim();
         Matrix m = new Matrix(startMatrixDim);
         // fill last row with values from gf
         for(int i = 0; i < startMatrixDim; i++) {
@@ -76,11 +73,11 @@ public class Partitions {
             index++;
         }
 
-        this.startValues = new BigInteger[this.startMatrixDim +1];
+        this.startValues = new BigInteger[this.startMatrixDim +1+ 100];
         this.startValues[0] = BigInteger.ONE;
 
         // calculate all values necessary for valueVector
-        for (int i = this.startMatrixDim; i > 0; i--) {
+        for (int i = this.startMatrixDim +100; i > 0; i--) {
             if(this.startValues[i] == null) this.calcStartValues(piecesBigInt, new BigInteger(i+""));
         }
     }
@@ -149,5 +146,10 @@ public class Partitions {
         Matrix m1 = this.baseMatrix.toThePowerOf(n);
         Matrix m2 = m1.leftMultiply(this.valueVector);
         return m2.values[0][0];
+    }
+
+
+    private int getStartMatrixDim() {
+        return this.gf.polynomial.values.length -1;
     }
 }

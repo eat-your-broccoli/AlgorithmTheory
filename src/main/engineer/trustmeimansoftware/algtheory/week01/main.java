@@ -23,6 +23,7 @@ public class main {
                 case "2": ex02(); break;
                 case "3": ex03(); break;
                 case "4": ex04(); break;
+                // TODO this is broken for some partitions, e.g. {2, 7}
                 case "5": ex05(); break;
                 case "exit": running = false; break;
                 default: System.out.println("Unknown problem: "+input);
