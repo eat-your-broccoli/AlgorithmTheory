@@ -57,6 +57,7 @@ public class LatticePaths3D {
         if(this.paths.containsKey(cordsStr)) return this.paths.get(cordsStr);
 
         // 1 when we're exactly on 0,0,0
+        // base case of recursion
         if(distance == 0) return BigInteger.ONE;
 
         // the sum of all other steps that are closer to 0
@@ -65,6 +66,7 @@ public class LatticePaths3D {
             int[] newCords = addCoordinates(cords, move);
             pathSum = pathSum.add(this.pathsToZero(newCords, distance));
         }
+
         this.paths.put(cordsStr, pathSum);
         return pathSum;
     }

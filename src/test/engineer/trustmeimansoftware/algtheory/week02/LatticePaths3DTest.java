@@ -15,7 +15,6 @@ class LatticePaths3DTest {
         LatticePaths3D l = new LatticePaths3D(100);
         float distance = l.euclideanDistance(new int[]{3, -5, 23});
         assertEquals(563, (int) distance);
-
     }
 
     @Test
