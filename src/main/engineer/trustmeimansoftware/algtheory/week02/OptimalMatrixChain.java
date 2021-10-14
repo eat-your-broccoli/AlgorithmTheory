@@ -1,5 +1,10 @@
 package engineer.trustmeimansoftware.algtheory.week02;
 
+import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
 public class OptimalMatrixChain {
     public int[] dims;
     public int [][] splits;
@@ -43,7 +48,7 @@ public class OptimalMatrixChain {
         long minimum = Long.MAX_VALUE;
         long h = 0L;
         for(int k = i; k < j; k++) {
-            h = this.m(i,k)+m(k+1,j)+ this.dims[i-1]*this.dims[k]*this.dims[j];
+            h = this.m(i,k)+m(k+1,j)+ (long) this.dims[i - 1] *this.dims[k]*this.dims[j];
             if(h < minimum) {
                 minimum = h;
                 splits[i][j] = k;
@@ -51,5 +56,26 @@ public class OptimalMatrixChain {
         }
         this.mins[i][j] = minimum;
         return minimum;
+    }
+
+    public static void main(String[] args) {
+        boolean running = true;
+        while(running) {
+            System.out.println("Input your dimensions:");
+            Scanner sc = new Scanner(System.in);
+            String input = sc.nextLine();
+            if(input == "exit") {
+                running = false;
+                continue;
+            }
+            int[] dims = Arrays.stream(input.split(" ")).mapToInt(Integer::valueOf).toArray();
+            OptimalMatrixChain chain = new OptimalMatrixChain(dims);
+            long result = chain.get();
+            String seq = chain.getSequence();
+            System.out.println("Dims: "+ Arrays.toString(dims));
+            System.out.println("Multiplications: "+ result);
+            System.out.println("Dims: "+ seq);
+            System.out.println();
+        }
     }
 }
