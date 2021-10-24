@@ -20,7 +20,7 @@ public class Graph {
         double[] results = new double[outputs.length];
 
         for(int i = 0; i < inputVals.length; i++) {
-            results[i] = outputs[i].get();
+            results[i] = outputs[i].calc();
         }
 
         return results;
