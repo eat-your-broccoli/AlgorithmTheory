@@ -48,14 +48,14 @@ public abstract class Node {
         return new MultiplyNode(n1, n2);
     }
 
-//    public static Node sin(Node n1, boolean isPositive) {
-//        return new SinNode(n1, isPositive);
-//    }
-//
-//    public static Node cos(Node n1, boolean isPositive) {
-//        return new CosNode(n1, isPositive);
-//    }
-//
+    public static Node sin(Node n1, boolean isPositive) {
+        return new SinNode(n1, isPositive);
+    }
+
+    public static Node cos(Node n1, boolean isPositive) {
+        return new CosNode(n1, isPositive);
+    }
+
 //    public static Node exp(Node n1, Node n2) {
 //        return new ExpNode(n1, n2);
 //    }
@@ -234,7 +234,7 @@ class MultiplyNode extends Node {
     }
 }
 
-/*class SinNode extends Node{
+class SinNode extends Node{
     Node n1;
     boolean isPositive = true;
     public SinNode(Node n1, boolean isPositive) {
@@ -249,13 +249,23 @@ class MultiplyNode extends Node {
     }
 
     @Override
-    public double df(Node target) {
-        return 0;
+    public Node df(Node target) {
+        return new CosNode(n1, isPositive);
     }
 
     @Override
     public boolean containsTargetInput(Node target) {
         return n1.containsTargetInput(target);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder b = new StringBuilder();
+        b.append(isPositive ? "" : " - ");
+        b.append("sin(");
+        b.append(n1.toString());
+        b.append(")");
+        return b.toString();
     }
 }
 
@@ -274,16 +284,26 @@ class CosNode extends Node{
     }
 
     @Override
-    public double df(Node target) {
-        return 0;
+    public Node df(Node target) {
+        return new SinNode(n1, !isPositive);
     }
 
     @Override
     public boolean containsTargetInput(Node target) {
         return false;
     }
-}
 
+    @Override
+    public String toString() {
+        StringBuilder b = new StringBuilder();
+        b.append(isPositive ? "" : " - ");
+        b.append("cos(");
+        b.append(n1.toString());
+        b.append(")");
+        return b.toString();
+    }
+}
+/*
 class ExpNode extends Node{
     Node n1;
     Node n2;
