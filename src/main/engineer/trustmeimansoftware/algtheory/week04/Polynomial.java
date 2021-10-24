@@ -17,7 +17,7 @@ public class Polynomial {
         return sum;
     }
 
-    public Polynomial Derivative() {
+    public Polynomial Derivation() {
         if(p.length == 0) return new Polynomial(new double[]{});
         double[] derivedP = new double[p.length-1];
         for(int i = 0; i < derivedP.length; i++) {

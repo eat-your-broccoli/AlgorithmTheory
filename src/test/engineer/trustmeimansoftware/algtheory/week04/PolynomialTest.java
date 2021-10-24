@@ -16,9 +16,9 @@ class PolynomialTest {
     }
 
     @Test
-    void derivative() {
+    void derivation() {
         Polynomial p = new Polynomial(new double[]{2.1, 2.3, 4.5, 6.632});
-        Polynomial derivate = p.Derivative();
+        Polynomial derivate = p.Derivation();
         assertEquals(3, derivate.p.length);
         assertEquals(2.3d, derivate.p[0]);
         assertEquals(9.0d, derivate.p[1]);
@@ -26,9 +26,9 @@ class PolynomialTest {
     }
 
     @Test
-    void doubleDerivative() {
+    void doubleDerivation() {
         Polynomial p = new Polynomial(new double[]{2.1, 2.3, 4.5, 6.632});
-        Polynomial derivate = p.Derivative().Derivative();
+        Polynomial derivate = p.Derivation().Derivation();
         assertEquals(2, derivate.p.length);
         assertEquals(9.0d, derivate.p[0]);
         assertEquals(6.632d * 3 * 2, derivate.p[1]);
