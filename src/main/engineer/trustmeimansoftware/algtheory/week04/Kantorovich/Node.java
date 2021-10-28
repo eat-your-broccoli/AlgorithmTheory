@@ -56,9 +56,9 @@ public abstract class Node {
         return new CosNode(n1, isPositive);
     }
 
-//    public static Node exp(Node n1, Node n2) {
-//        return new ExpNode(n1, n2);
-//    }
+    public static Node exp(Node n1, Node n2) {
+        return new ExpNode(n1, n2);
+    }
 
 
 }
@@ -303,7 +303,7 @@ class CosNode extends Node{
         return b.toString();
     }
 }
-/*
+
 class ExpNode extends Node{
     Node n1;
     Node n2;
@@ -319,15 +319,15 @@ class ExpNode extends Node{
     }
 
     @Override
-    public double df(Node target) {
-        return 0;
+    public Node df(Node target) {
+        return new ConstantNode(0);
     }
 
     @Override
     public boolean containsTargetInput(Node target) {
         return false;
     }
-}*/
+}
 
 
 
