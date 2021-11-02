@@ -32,6 +32,6 @@ public class RNG {
     }
 
     public int rand(int min, int max) {
-        return (int) (this.rand() * ((max - min) + 1));
+        return (int) (this.rand() * ((max - min) + 1)) + min;
     }
 }

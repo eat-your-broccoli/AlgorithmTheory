@@ -25,4 +25,20 @@ class RNGTest {
         System.out.println("Minimum occurrence: "+min);
         System.out.println("Maximum occurrence: "+max);
     }
+
+    @Test
+    public void randMinMax() {
+        int min = 5;
+        int max = 20;
+        int[] values = new int[max-min+1];
+        RNG rng = new RNG();
+
+        for(int i = 0; i < 10000; i++) {
+            int x = rng.rand(min, max);
+            values[x-min]++;
+        }
+        System.out.println(Arrays.toString(values));
+
+
+    }
 }
