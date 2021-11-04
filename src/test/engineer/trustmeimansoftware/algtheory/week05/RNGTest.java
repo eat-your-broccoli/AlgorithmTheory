@@ -38,7 +38,5 @@ class RNGTest {
             values[x-min]++;
         }
         System.out.println(Arrays.toString(values));
-
-
     }
 }
