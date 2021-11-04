@@ -44,13 +44,6 @@ class SortTest {
         System.out.println("breaking Comparisons: "+Sort.countCompare);
     }
 
-
-    @Test
-    public void breakQSort() {
-        int[] arr = Sort.breakQSort(20);
-        System.out.println(Arrays.toString(arr));
-    }
-
     private static void shuffleArray(int[] array)
     {
         int index;

@@ -8,26 +8,10 @@ public class Sort {
 
     static int countCompare = 0;
     static int countSwap = 0;
+    private static Comparator<Integer> compareInteger = new CompareInteger();
 
     public static void quickSort(int[] a, int l, int r) {
-        int m = (l+r)/2;
-        if (c(a[l] > a[m])) swap(a, l, m); // small problem
-        if (c(a[m] > a[r])) swap(a, m, r); // and presort
-        if (c(a[l] > a[m])) swap(a, l, m); // with bubble sort
-        if ((r - l) > 2){ // large problem:
-            int ll = l;
-            int rr = r;
-            int pivot = a[m]; // pivot element
-            do {
-                // find an element from the left that is larger than pivot
-                while (c(a[ll] < pivot)) ll++; // search ll
-                // find a element from the right that is smaller than pivot
-                while (c(a[rr] > pivot)) rr--; // search rr
-                if (ll <= rr) swap (a, ll++, rr--); // swap
-            } while (ll <= rr); // until done
-            if (l < rr) quickSort (a, l, rr); // conquer left
-            if (ll < r) quickSort (a, ll, r); // conquer right
-        }
+        quickSort(a, l, r, compareInteger);
     }
 
     public static void quickSort(int[] a, int l, int r, Comparator<Integer> comp) {
@@ -53,9 +37,7 @@ public class Sort {
     }
 
     public static void quickSort(int[] a) {
-        countSwap = 0;
-        countCompare = 0;
-        quickSort(a, 0, a.length-1);
+        quickSort(a, compareInteger);
     }
 
     public static void quickSort(int[] a, Comparator<Integer> comp) {
@@ -65,22 +47,12 @@ public class Sort {
     }
 
 
-
     public static void swap(int[] a, int i, int j) {
         countSwap++;
         if(i == j) return;
         int tmp = a[i];
         a[i] = a[j];
         a[j] = tmp;
-    }
-
-    public static boolean compare(boolean b) {
-        countCompare++;
-        return b;
-    }
-
-    public static boolean c(boolean b) {
-        return compare(b);
     }
 
 
@@ -103,6 +75,13 @@ public class Sort {
         return ret;
     }
 
+    static class CompareInteger implements Comparator<Integer> {
+        @Override
+        public int compare(Integer x, Integer y) {
+            Sort.countCompare++;
+            return Integer.compare(x,y);
+        }
+    }
 }
 
 /**
