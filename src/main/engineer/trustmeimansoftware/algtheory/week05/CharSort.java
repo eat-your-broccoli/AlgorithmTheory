@@ -7,40 +7,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class CharSort {
 
-    public int qsort(Character[][] array) {
-        CharArrayComparator c = new CharArrayComparator();
-        qsort(array, c);
-        return c.counter;
-    }
-
-    public int qsort(Character[][] array, CharArrayComparator c) {
-        return qsort(array, 0, array.length, c);
-    }
-
-    public int qsort(Character[][] a, int l, int r, CharArrayComparator c) {
-        return qsort(a, l, r, c, PivotFinder.randomPivot);
-    }
-
-    public int qsort(Character[][] a, int l, int r, CharArrayComparator c, IPivotFinder p) {
-        int m = p.getPivot(a, l, r, c);
-
-        if ((r - l) > 2){ // large problem:
-            int ll = l;
-            int rr = r;
-            Character[] pivot = a[m]; // pivot element
-            do {
-                // find an element from the left that is larger than pivot
-                while (c.compare(a[ll], pivot) < 0) ll++; // search ll
-                // find a element from the right that is smaller than pivot
-                while (c.compare(a[rr], pivot) > 0) rr--; // search rr
-                if (ll <= rr) swap (a, ll++, rr--); // swap
-            } while (ll <= rr); // until done
-            if (l < rr) qsort (a, l, rr, c, p); // conquer left
-            if (ll < r) qsort(a, ll, r, c, p); // conquer right
-        }
-        return c.counter;
-    }
-
     public <T> void qsort(T[] a, int l, int r, Comparator<T> c, IPivotFinder p) {
         int m = p.getPivot(a, l, r, c);
 
