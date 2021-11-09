@@ -48,6 +48,44 @@ public class Matrix {
         }
     }
 
+
+    /**
+     * multiplies matrix with itself n times
+     * after each iteration applies mod to each value
+     */
+    public Matrix powMod(BigInteger n, BigInteger mod) {
+        if(n.compareTo(BigInteger.ZERO) < 0) throw new IllegalArgumentException("n cannot be below zero");
+        // create identity matrix
+        if (n.equals(BigInteger.ZERO)) {
+            Matrix m = new Matrix(this.values.length);
+            for(int i = 0; i < m.values.length; i++) {
+                m.values[i][i] = BigInteger.ONE;
+            }
+            return m;
+        }
+        if(n.equals(BigInteger.ONE)) {
+            return new Matrix(this.values);
+        } else if (n.equals(BigInteger.TWO)) {
+            return this.leftMultiply(this).mod(mod);
+        } else if (n.mod(BigInteger.TWO).equals(BigInteger.ZERO)) {
+            Matrix m = this.powMod(n.divide(BigInteger.TWO), mod);
+            return m.leftMultiply(m).mod(mod);
+        } else {
+            Matrix m = this.powMod(n.subtract(BigInteger.ONE), mod);
+            return m.leftMultiply(this).mod(mod);
+        }
+    }
+
+    public Matrix mod(BigInteger mod) {
+        Matrix m = new Matrix(values.length, values[0].length);
+        for(int i = 0; i < values.length; i++) {
+            for(int j = 0; j < values[i].length; j++) {
+                m.values[i][j] = values[i][j].mod(mod);
+            }
+        }
+        return  m;
+    }
+
     /**
      * create a Matrix of BigIntegers initialized with BigInteger.ZERO
      */
