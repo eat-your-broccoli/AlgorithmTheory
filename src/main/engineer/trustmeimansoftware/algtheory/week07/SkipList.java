@@ -2,7 +2,6 @@ package engineer.trustmeimansoftware.algtheory.week07;
 
 import engineer.trustmeimansoftware.algtheory.week05.RNG;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,12 +63,10 @@ public class SkipList<T extends Comparable<T>> {
             // values that are not power of 2 are ignored
             if(c % 2 == 1) continue;
             for(int i = 1; i <= maxHeight; i++) {
-                System.out.println("checking: "+c+ " : "+i);
                 // check if multiples of 2 of i th power
                 // >>> inserts a 0
                 // if yes, set as ref of ith height
                 if(isMultipleOf2(c, i)) {
-                    System.out.println("Set node("+lastNode.key+")."+i+": "+node.key);
                     updates.get(i).setRef(i, node);
                     updates.set(i, node);
                 } else break;
@@ -82,14 +79,49 @@ public class SkipList<T extends Comparable<T>> {
     }
 
     private boolean isMultipleOf2(int a, int pow) {
-        System.out.println("Multiple: "+a + " pow: "+pow);
         if(pow == 1 && a == 2) return true;
         int div = (1 << pow);
         return (a == div) || (a > div && a % div == 0);
     }
 
-    public void insert(Node<T> n) {
+    /**
+     * returns a node with the exact value or less than that
+     * this node can then be used to insert new value after the returned
+     * null indicates that there is no node with a smaller value. A Node with searchValue then has to be inserted as new head
+     * @param searchValue
+     * @return
+     */
+    public Node<T> searchClosestLeftNeighbor(T searchValue) {
+        Node<T> n = this.head;
+        int i = maxHeight;
+        for(; i >= 0; i--) {
+            while(n.getRef(i) != null && n.getRef(i).key.compareTo(searchValue) < 0) {
+                n = n.getRef(i);
+            }
+        }
+        if(n.key.compareTo(searchValue) > 0) return null;
+        return n;
+    }
 
+    public Node<T> searchExact(T searchValue) {
+        Node<T> n = this.searchClosestLeftNeighbor(searchValue);
+        if(n == null) return null;
+        return (n.key.compareTo(searchValue) == 0) ? n : null;
+    }
+
+    public void insert(Node<T> n) {
+        Node<T> insertNode = searchClosestLeftNeighbor(n.key);
+        if(insertNode == null) {
+            n.refs = this.head.refs;
+            n.refs.set(0, this.head);
+            this.head = this.tail;
+        } else if (insertNode.equals(this.tail)) {
+            T tmp = n.key;
+            n.key = tail.key;
+            Node<T> preTail = this.searchClosestLeftNeighbor(this.tail.key);
+            preTail.setRef(0, n);
+            // TODO
+        }
     }
 
     private int randheight () {
