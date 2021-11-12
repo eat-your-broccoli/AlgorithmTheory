@@ -6,7 +6,7 @@ public class RNG {
     int m = 2147483647; // 2^31 - 1 = a * q + r
     int q = 127773; // m / a
     int r = 2836; // m % a
-    int seed = 0; // start seed
+    int seed; // start seed
 
     public void setSeed (int seed) {
         this.seed = seed;
@@ -27,8 +27,8 @@ public class RNG {
         this((int) System.currentTimeMillis());
     }
 
-    public int rand(int n) {
-        return this.rand(0, n - 1);
+    public int rand(int amount) {
+        return this.rand(0, amount - 1);
     }
 
     public int rand(int min, int max) {
