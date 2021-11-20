@@ -28,10 +28,6 @@ public class Subsets {
         return subsets;
     }
 
-    public static void subsetsToDLX(int from, int to, ArrayList<int[]> subsets) {
-
-    }
-
     public static void main(String[] args) {
         while(true) {
             System.out.println("enter n: ");
