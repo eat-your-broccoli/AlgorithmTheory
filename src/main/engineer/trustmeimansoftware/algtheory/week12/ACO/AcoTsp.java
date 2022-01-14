@@ -6,7 +6,8 @@ public class AcoTsp {
 
     public static final int QUANTUM = 100;
     public static final double RHO = 0.8d;
-    public static final double PHEROMONE_INIT = 0.001d;
+    public static final double PHEROMONE_INIT = 0.0001d;
+    public static final int MAX_ITERATION = 100;
 
 
 
@@ -15,7 +16,8 @@ public class AcoTsp {
     double[][] pheromones;
 
     public void init() {
-        ants = new Ant[tsp.getSize() * 20];
+        System.out.printf("Init %d ants for AOC\n", tsp.getSize());
+        ants = new Ant[tsp.getSize()];
 
         // init an ant in each city
         for(int i = 0; i < ants.length; i++)
@@ -27,48 +29,79 @@ public class AcoTsp {
         }
     }
 
-    public int[] run() {
-        for(int time = 1; time < tsp.getSize(); time++) {
-            // all the ants make one step
-            double[][] pheromonesUpdate = new double[pheromones.length][pheromones.length];
+    public double run() {
+        double[] distances = new double[MAX_ITERATION];
+        double shortestDistance = Double.MAX_VALUE;
+        int[] shortestRoute = new int[tsp.getSize()];
+        Arrays.fill(distances, Double.MAX_VALUE);
+
+        for(int time = 0; time < MAX_ITERATION; time++) {
+            // all the ants chose a path
             for(Ant ant: ants) {
-                // next city to visit
-                int currentCity = ant.currentCity;
-                int nextCity = ant.selectCity(tsp.distances, pheromones);
-                ant.goToCity(nextCity);
-                // pheromone level update
-                // uniformly chose indices, because transitions A > B and B > A are the same, so write to same edge
-                int from = Math.min(currentCity, nextCity);
-                int to = Math.max(currentCity, nextCity);
-                double dist = tsp.distances[from][to];
-                pheromonesUpdate[from][to] += (double) QUANTUM / dist;
+                antTrip(ant);
             }
 
-            for(int i = 0; i < pheromones.length; i++) {
-                for(int j = 0; j < pheromones.length; j++) {
-                    pheromones[i][j] = ((pheromones[i][j] * (1.0d - RHO)) + (RHO * pheromonesUpdate[i][j]));
-                    pheromones[j][i] = pheromones[i][j];
+            // update pheromones
+            // dissipating pheromones
+            dissipatePheromones();
+
+            // each ant dispenses pheromone along path
+            for(Ant ant: ants) {
+                dispensePheromones(ant);
+                double distance = ant.getRouteLength(tsp.distances);
+                // store shortest path for each iteration
+                distances[time] = Math.min(distances[time], distance);
+                shortestDistance = Math.min(shortestDistance, distances[time]);
+                if(shortestDistance == distances[time]) {
+                    shortestRoute = ant.route;
                 }
+                // reset ant
+                int startCity = ant.route[0];
+                ant.reset();
+                ant.setStartCity(startCity);
             }
         }
 
-        // determine fastest path
-        Ant fastestAnt = ants[0];
-        double shortesPath = fastestAnt.getRouteLength(tsp.distances);
-
-        for( Ant ant: ants) {
-            double rLen = ant.getRouteLength(tsp.distances);
-            // System.out.println("Ant "+ant.route[0]+ " => "+rLen);
-            // System.out.println(Arrays.toString(ant.route));
-            if(rLen < shortesPath) {
-                fastestAnt = ant;
-                shortesPath = rLen;
-            }
+        for(double path: distances) {
+            System.out.printf("route: %.9f\n", path);
         }
 
-        // print out fastest ant path
-        System.out.println("fastest route: "+Arrays.toString(fastestAnt.route));
-        System.out.printf("distance: %.9f\n", shortesPath);
-        return fastestAnt.route;
+        System.out.printf("shortest route found (dist): %.9f\n", shortestDistance);
+        System.out.printf("shortest route found: %s\n", Arrays.toString(shortestRoute));
+
+
+        return shortestDistance;
+    }
+
+    private void dissipatePheromones() {
+        for(int i = 0; i < pheromones.length; i++) {
+            for(int j = i + 1; j < pheromones.length; j++) {
+                pheromones[i][j] = pheromones[i][j] * (1.0d - RHO);
+                pheromones[j][i] = pheromones[i][j];
+            }
+        }
+    }
+
+    private void dispensePheromones(Ant ant) {
+        double distance = ant.getRouteLength(tsp.distances);
+        double addPheromone = QUANTUM / distance;
+        // make +1 steps to include loop back to start point with (i mod route.length)
+        for(int i = 0; i < ant.route.length; i++) {
+            //
+            int from = Math.min(ant.route[i], ant.route[(i+1) % ant.route.length]);
+            int to = Math.max(ant.route[i], ant.route[(i+1) % ant.route.length]);;
+            pheromones[from][to] += addPheromone;
+            pheromones[to][from] = pheromones[from][to];
+        }
+    }
+
+
+
+    private void antTrip(Ant ant) {
+        int nextCity = ant.selectCity(tsp.distances, pheromones);
+        while(nextCity >= 0) {
+            ant.goToCity(nextCity);
+            nextCity = ant.selectCity(tsp.distances, pheromones);
+        }
     }
 }

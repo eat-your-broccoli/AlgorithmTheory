@@ -11,16 +11,22 @@ public class Ant {
     int counter;
     double alpha = 1;
     double beta = 5;
+    double routeDistance = -1.0d;
 
 
     public Ant(int cities, int startCity) {
         route = new int[cities];
-        currentCity = startCity;
-        route[0] = startCity;
-        counter++;
+        setStartCity(startCity);
+    }
+
+    public void setStartCity(int city) {
+        route[0] = city;
+        currentCity = city;
+        counter = 1;
     }
 
     public int selectCity(double[][] distances, double[][] pheromones) {
+        if(counter >= route.length) return -1;
         double pSum = 0;
         double[] p = new double[distances.length];
 
@@ -34,7 +40,7 @@ public class Ant {
         } else {
             for(int i = 0; i < distances[this.currentCity].length; i++) {
                 if(i != route[0] && !memory.contains(i)) {
-                    p[i] = Math.pow(pheromones[this.currentCity][i], alpha) * Math.pow(distances[this.currentCity][i], beta);
+                    p[i] = Math.pow(pheromones[this.currentCity][i], alpha) * Math.pow(1.0d / distances[this.currentCity][i], beta);
                     pSum += p[i];
                 }
             }
@@ -66,6 +72,7 @@ public class Ant {
     }
 
     public double getRouteLength(double[][] distances) {
+        if(routeDistance >= 0) return routeDistance;
         // count all the ways from start city to start city again
         double dist = distances[route.length-1][0]; // distance from end to start
         for(int i = 0; i < route.length-1; i++) {
@@ -73,6 +80,17 @@ public class Ant {
             int to = route[i+1];
             dist += distances[from][to]; // and all the sub segments from start to end
         }
+        routeDistance = dist;
         return dist;
     }
+
+    public void reset() {
+        memory.clear();
+        route = new int[route.length];
+        counter = -1;
+        currentCity = -1;
+        routeDistance = -1;
+    }
 }
+
+// 25s 859
