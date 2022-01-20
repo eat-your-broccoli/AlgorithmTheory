@@ -4,20 +4,41 @@ import java.util.Arrays;
 
 public class AcoTsp {
 
-    public static final int QUANTUM = 100;
-    public static final double RHO = 0.8d;
-    public static final double PHEROMONE_INIT = 0.0001d;
-    public static final int MAX_ITERATION = 100;
+    public int QUANTUM;
+    public double RHO;
+    public double PHEROMONE_INIT;
+    public int MAX_ITERATION;
+    public int antCount = 100;
 
+    public AcoTsp() {
+        this.QUANTUM = 100;
+        this.RHO = 0.8d;
+        this.PHEROMONE_INIT = 0.0001d;
+        this.MAX_ITERATION = 100;
+        this.antCount = -1;
+    }
 
+    public AcoTsp(int quantum, double rho, double pheromoneInit, int maxIteration, int antCount) {
+        this.antCount = antCount;
+        this.QUANTUM = quantum;
+        this.RHO = rho;
+        this.PHEROMONE_INIT = pheromoneInit;
+        this.MAX_ITERATION = maxIteration;
+        System.out.println("Config: ");
+        System.out.printf("PHEROMONE INIT: %.9f\n", PHEROMONE_INIT);
+        System.out.printf("RHO: %.9f\n", RHO);
+        System.out.printf("QUANTUM: %d\n", QUANTUM);
+        System.out.printf("ITERATIONS: %d\n", MAX_ITERATION);
+    }
 
     TSP tsp;
     Ant[] ants;
     double[][] pheromones;
 
     public void init() {
-        System.out.printf("Init %d ants for AOC\n", tsp.getSize());
-        ants = new Ant[tsp.getSize()];
+        if(antCount < 0) antCount = tsp.getSize();
+        System.out.printf("Init %d ants for ACO\n", antCount);
+        ants = new Ant[antCount];
 
         // init an ant in each city
         for(int i = 0; i < ants.length; i++)
@@ -63,10 +84,10 @@ public class AcoTsp {
         }
 
         for(double path: distances) {
-            System.out.printf("route: %.9f\n", path);
+            System.out.printf("route: %.2f\n", path);
         }
-
-        System.out.printf("shortest route found (dist): %.9f\n", shortestDistance);
+        System.out.println();
+        System.out.printf("shortest route found (dist): %.2f\n", shortestDistance);
         System.out.printf("shortest route found: %s\n", Arrays.toString(shortestRoute));
 
 

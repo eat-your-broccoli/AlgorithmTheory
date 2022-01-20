@@ -37,11 +37,15 @@ public class MTFSort {
         // since all up to the i-th element is solved, and we now have to solve the i-th, it is sth. like (n-1)! possible ways
         // how many moves are possible when looking at the i-th step?
 
-        BigDecimal count = BigDecimal.ZERO;
-        BigDecimal factorial = BigDecimal.ONE;
+        BigDecimal count = BigDecimal.ZERO; // how many moves all permutations together need
+        BigDecimal factorial = BigDecimal.ONE; // how many permutations of length len are
 
-        for(int i = 2; i < len; i++) {
+        for(int i = 2; i <= len; i++) {
+            // last solution (i-1) times i
+            // all previous solutions with one more that is already sorted
             BigDecimal left = count.multiply(new BigDecimal(i+""));
+            // all solutions where the new
+            // (2^(i-1) - 1) * factorial
             BigDecimal right = new BigDecimal(2+"").pow(i-1).subtract(BigDecimal.ONE).multiply(factorial);
             count = left.add(right);
             factorial = factorial.multiply(new BigDecimal(i+""));
